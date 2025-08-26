@@ -1,0 +1,14 @@
+--- a/src/modules/alsa/alsa-mixer.c
++++ b/src/modules/alsa/alsa-mixer.c
+@@ -1206,6 +1206,11 @@
+             if (e->volume_limit >= 0 && value > (e->max_dB * 100))
+                 value = e->max_dB * 100;
+ 
++            // some devices would become quiet when setting to min_db, so we add 1 here
++            if (value <= (e->min_dB * 100 + 100)) {
++                value = e->min_dB * 100 + 100;
++            }
++
+             if (e->direction == PA_ALSA_DIRECTION_OUTPUT) {
+                 /* If we call set_playback_volume() without checking first
+                  * if the channel is available, ALSA behaves very

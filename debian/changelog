@@ -1,3 +1,10 @@
+pulseaudio (17.0+dfsg1-2deepin3) unstable; urgency=medium
+
+  * add 1 to min_dB
+  * fix test
+
+ -- qaqland <anguoli@uniontech.com>  Tue, 26 Aug 2025 20:09:05 +0800
+
 pulseaudio (17.0+dfsg1-2deepin2) unstable; urgency=medium
 
   * add sw64 support. 

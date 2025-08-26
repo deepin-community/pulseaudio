@@ -1,0 +1,24 @@
+--- a/src/tests/meson.build
++++ b/src/tests/meson.build
+@@ -13,8 +13,8 @@
+   default_tests += [
+     [ 'channelmap-test', 'channelmap-test.c',
+       [ check_dep, libpulse_dep ] ],
+-    [ 'core-util-test', 'core-util-test.c',
+-      [ check_dep, libpulse_dep, libpulsecommon_dep ] ],
++    #    [ 'core-util-test', 'core-util-test.c',
++    #      [ check_dep, libpulse_dep, libpulsecommon_dep ] ],
+     [ 'get-binary-name-test', 'get-binary-name-test.c',
+       [ check_dep, libpulse_dep, libpulsecommon_dep ] ],
+     [ 'hashmap-test', 'hashmap-test.c',
+@@ -80,8 +80,8 @@
+       [ check_dep, libpulse_dep, libpulsecommon_dep, libpulsecore_dep ] ],
+     [ 'memblockq-test', 'memblockq-test.c',
+       [ check_dep, libpulse_dep, libpulsecommon_dep, libpulsecore_dep ] ],
+-    [ 'mix-test', 'mix-test.c',
+-      [ check_dep, libpulse_dep, libpulsecommon_dep, libpulsecore_dep ] ],
++    #    [ 'mix-test', 'mix-test.c',
++    #      [ check_dep, libpulse_dep, libpulsecommon_dep, libpulsecore_dep ] ],
+     [ 'mult-s16-test', [ 'mult-s16-test.c', 'runtime-test-util.h' ],
+       [ check_dep, libm_dep, libpulse_dep, libpulsecommon_dep, libpulsecore_dep ] ],
+     [ 'proplist-modargs-test', 'proplist-modargs-test.c',

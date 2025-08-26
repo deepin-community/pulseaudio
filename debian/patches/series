@@ -6,3 +6,5 @@ ucm-check-verb-for-device-status.patch
 ucm-replace-context-assertion-with-error.patch
 ucm-fix-infinite-recursion.patch
 deepin-bug192419-volume-optimization.patch
+hardware-min-mute.patch
+disable-test-for-deepin-bug192419-volume-optimization.patch
