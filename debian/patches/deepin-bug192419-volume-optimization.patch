@@ -1,8 +1,17 @@
 Index: pulseaudio/src/pulse/volume.c
 ===================================================================
---- pulseaudio.orig/src/pulse/volume.c
-+++ pulseaudio/src/pulse/volume.c
-@@ -272,7 +272,7 @@ pa_volume_t pa_sw_volume_from_linear(dou
+---
+ src/pulse/volume.c         |  4 ++--
+ src/pulse/volume.h         |  2 ++
+ src/tests/core-util-test.c | 12 ++++++------
+ src/tests/mix-test.c       |  4 ++--
+ 4 files changed, 12 insertions(+), 10 deletions(-)
+
+diff --git a/src/pulse/volume.c b/src/pulse/volume.c
+index fc6ac8d..0d5b059 100644
+--- a/src/pulse/volume.c
++++ b/src/pulse/volume.c
+@@ -272,7 +272,7 @@ pa_volume_t pa_sw_volume_from_linear(double v) {
       * same volume value! That's why we need the lround() below!
       */
  
@@ -11,7 +20,7 @@ Index: pulseaudio/src/pulse/volume.c
  }
  
  double pa_sw_volume_to_linear(pa_volume_t v) {
-@@ -288,7 +288,7 @@ double pa_sw_volume_to_linear(pa_volume_
+@@ -288,7 +288,7 @@ double pa_sw_volume_to_linear(pa_volume_t v) {
  
      f = ((double) v / PA_VOLUME_NORM);
  
@@ -20,11 +29,11 @@ Index: pulseaudio/src/pulse/volume.c
  }
  
  char *pa_cvolume_snprint(char *s, size_t l, const pa_cvolume *c) {
-Index: pulseaudio/src/pulse/volume.h
-===================================================================
---- pulseaudio.orig/src/pulse/volume.h
-+++ pulseaudio/src/pulse/volume.h
-@@ -173,6 +173,8 @@ pa_cvolume* pa_cvolume_set(pa_cvolume *a
+diff --git a/src/pulse/volume.h b/src/pulse/volume.h
+index d9b0986..1b8cadd 100644
+--- a/src/pulse/volume.h
++++ b/src/pulse/volume.h
+@@ -173,6 +173,8 @@ pa_cvolume* pa_cvolume_set(pa_cvolume *a, unsigned channels, pa_volume_t v);
   * might become part of an ABI.*/
  #define PA_CVOLUME_SNPRINT_MAX 320
  
@@ -33,3 +42,50 @@ Index: pulseaudio/src/pulse/volume.h
  /** Pretty print a volume structure. Returns \a s. */
  char *pa_cvolume_snprint(char *s, size_t l, const pa_cvolume *c);
  
+diff --git a/src/tests/core-util-test.c b/src/tests/core-util-test.c
+index 49aa4ab..e5c2324 100644
+--- a/src/tests/core-util-test.c
++++ b/src/tests/core-util-test.c
+@@ -45,21 +45,21 @@ START_TEST (test_parse_volume) {
+ 
+     // dB volumes
+     ck_assert_int_eq(pa_parse_volume("-20dB", &value), 0);
+-    ck_assert_int_eq(value, 30419);
++    ck_assert_int_eq(value, 18236);
+     ck_assert_int_eq(pa_parse_volume("-10dB", &value), 0);
+-    ck_assert_int_eq(value, 44649);
++    ck_assert_int_eq(value, 34570);
+     ck_assert_int_eq(pa_parse_volume("-1dB", &value), 0);
+-    ck_assert_int_eq(value, 63069);
++    ck_assert_int_eq(value, 61476);
+     ck_assert_int_eq(pa_parse_volume("0dB", &value), 0);
+     ck_assert_int_eq(value, 65536);
+     ck_assert_int_eq(pa_parse_volume("1dB", &value), 0);
+-    ck_assert_int_eq(value, 68100);
++    ck_assert_int_eq(value, 69865);
+     ck_assert_int_eq(pa_parse_volume("10dB", &value), 0);
+-    ck_assert_int_eq(value, 96194);
++    ck_assert_int_eq(value, 124239);
+ 
+     // lowercase db
+     ck_assert_int_eq(pa_parse_volume("10db", &value), 0);
+-    ck_assert_int_eq(value, 96194);
++    ck_assert_int_eq(value, 124239);
+ 
+     // percentage volumes
+     ck_assert_int_eq(pa_parse_volume("0%", &value), 0);
+diff --git a/src/tests/mix-test.c b/src/tests/mix-test.c
+index a08448d..9b89ee7 100644
+--- a/src/tests/mix-test.c
++++ b/src/tests/mix-test.c
+@@ -62,8 +62,8 @@ static const uint16_t s16ne_result[3][10] = {
+ 
+ static const float float32ne_result[3][10] = {
+ { 0.000000, -1.000000, 1.000000, 4711.000000, 0.222000, 0.330000, -0.300000, 99.000000, -0.555000, -0.123000 },
+-{ 0.000000, -0.899987, 0.899987, 4239.837402, 0.199797, 0.296996, -0.269996, 89.098679, -0.499493, -0.110698 },
+-{ 0.000000, -1.899987, 1.899987, 8950.837891, 0.421797, 0.626996, -0.569996, 188.098679, -1.054493, -0.233698 },
++{ 0.000000, -0.899999, 0.899999, 4239.893555, 0.199800, 0.297000, -0.270000, 89.099869, -0.499499, -0.110700 },
++{ 0.000000, -1.899999, 1.899999, 8950.893555, 0.421800, 0.627000, -0.570000, 188.099869, -1.054499, -0.233700 },
+ };
+ 
+ static const uint32_t s32ne_result[3][10] = {
