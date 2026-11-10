@@ -1,0 +1,57 @@
+From: qaqland <anguoli@uniontech.com>
+Date: Tue, 10 Nov 2026 13:51:35 +0800
+Subject: build: build cleanly with the OSS support disabled
+
+Two places assume that the OSS wrapper and the OSS output module are
+always built:
+
+- the padsp bash-completion symlink is installed unconditionally, even
+  though the padsp man page is already gated on HAVE_OSS_WRAPPER;
+- HAVE_OSS_OUTPUT is only added to cdata when the OSS output support is
+  enabled, but default.pa.in always refers to it, so meson emits a
+  "variable is not present in the given configuration data" warning
+  when building with -Doss-output=disabled. m4 still drops the block,
+  but the warning is noisy and the generated file only happens to be
+  correct.
+
+Gate the completion symlink the same way as the man page, and always
+provide HAVE_OSS_OUTPUT to the daemon templates.
+
+Forwarded: no
+---
+diff --git a/shell-completion/bash/meson.build b/shell-completion/bash/meson.build
+index fb40655..554a87c 100644
+--- a/shell-completion/bash/meson.build
++++ b/shell-completion/bash/meson.build
+@@ -19,11 +19,15 @@ if bashcompletiondir != 'no'
+   if get_option('client')
+     aliases += [
+       'pacat',
+-      'padsp',
+       'paplay',
+       'parec',
+       'parecord',
+     ]
++    if cdata.has('HAVE_OSS_WRAPPER')
++      aliases += [
++        'padsp',
++      ]
++    endif
+     install_data('pactl', install_dir : bashcompletiondir)
+   endif
+ 
+diff --git a/src/daemon/meson.build b/src/daemon/meson.build
+index 31e36ec..7fd602f 100644
+--- a/src/daemon/meson.build
++++ b/src/daemon/meson.build
+@@ -98,6 +98,10 @@ custom_target('daemon.conf',
+ 
+ default_conf = configuration_data()
+ default_conf.merge_from(cdata)
++# HAVE_OSS_OUTPUT is only defined in cdata when OSS output support is built,
++# but default.pa.in always refers to it; provide a default to avoid a warning
++# when the OSS support is disabled with -Doss-output=disabled.
++default_conf.set('HAVE_OSS_OUTPUT', cdata.has('HAVE_OSS_OUTPUT') ? 1 : 0)
+ default_conf.set('PA_BINARY', cdata.get_unquoted('PA_BINARY'))
+ default_conf.set('PA_SOEXT', cdata.get_unquoted('PA_SOEXT'))
+ default_conf.set10('HAVE_AF_UNIX', cc.has_header('sys/un.h') ? true : cc.has_header('winsock2.h'))
