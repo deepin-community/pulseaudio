@@ -1,3 +1,14 @@
+pulseaudio (17.0+dfsg1-2deepin4) unstable; urgency=medium
+
+  * Stop building the OSS support (libpulsedsp, padsp and module-oss)
+    - Build with -Doss-output=disabled, which drops both module-oss and the
+      OSS wrapper (libpulsedsp/padsp)
+    - Drop the libpulsedsp binary package and its install file
+    - Drop the libpulsedsp dependency and padsp from pulseaudio-utils
+    - Stop shipping module-oss.so and liboss-util.so in pulseaudio
+
+ -- qaqland <anguoli@uniontech.com>  Tue, 10 Nov 2026 13:51:35 +0800
+
 pulseaudio (17.0+dfsg1-2deepin3) unstable; urgency=medium
 
   * Update volume test expectations for the deepin volume curve

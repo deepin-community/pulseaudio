@@ -6,3 +6,4 @@ ucm-check-verb-for-device-status.patch
 ucm-replace-context-assertion-with-error.patch
 ucm-fix-infinite-recursion.patch
 deepin-bug192419-volume-optimization.patch
+oss-disabled-clean-build.patch
